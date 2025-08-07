@@ -1,1 +1,48 @@
-<p>materia works!</p>
+<app-menu></app-menu>
+<div class="row pt-3 px-5">
+    <div class="col-6 text-start"><a class="lnk-item" href="#" (click)="regresar('dashboard')"><i class="fa-solid fa-arrow-left"></i> Volver a Dashboard</a></div>
+    <h3 class="txt-title mt-4">Materias</h3>
+    <div class="line"></div>
+    <div class="row pt-5">
+        <div class="col-12">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        @for(item of displayedColumns; track item) {
+                        <th scope="col" class="text-center">{{item}}</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(item of paginatedData; track item) {
+                    <tr>
+                        <td class="text-center fs-6">{{ item.codigo }}</td>
+                        <td class="text-center fs-6">{{ item.nombre }}</td>
+                        <td class="text-center fs-6">{{ item.creditos }}</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="row justify-content-end mt-4 mb-4">
+                <div class="col-3 text-end mt-4 w-full">
+                    <div class="join items-center">
+                        <button class="btn bg-transparent border-0 shadow-none"
+                            [disabled]="currentPage === 1" (click)="prevPage()">
+                            << Anterior
+                        </button>
+                        @for( page of pages; track page ) {
+                        <button class="btn border-0 shadow-none font-light mr-1"
+                            [class.btn-active]="currentPage === page" (click)="goToPage(page)">
+                            {{ page }}
+                        </button>     
+                        }
+                        <button class="btn bg-transparent border-0 shadow-none"
+                            [disabled]="currentPage === totalPages" (click)="nextPage()">
+                            Siguiente >>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
