@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
@@ -12,6 +13,9 @@ import {MatInputModule} from '@angular/material/input';
   styleUrl: './sign-in.component.css'
 })
 export class SignInComponent implements OnInit {
+  // inject dependencies
+  private  router = inject(Router);
+  // variables
   hide = signal(true);
   loginForm!: FormGroup;
   registroForm!: FormGroup;
@@ -50,6 +54,7 @@ export class SignInComponent implements OnInit {
       this.loginForm.markAllAsTouched();
     } else {
       console.log('Formulario de ingreso válido:', this.loginForm.value);
+      this.navigateTo('dashboard');
     }
   }
 
@@ -59,5 +64,9 @@ export class SignInComponent implements OnInit {
     } else {
       console.log('Formulario de registro válido:', this.registroForm.value);
     }
+  }
+
+  navigateTo(urlToNavigate: string, id?: number) {
+    this.router.navigateByUrl(`${urlToNavigate}`);
   }
 }
