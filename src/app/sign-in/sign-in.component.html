@@ -29,6 +29,8 @@
                                       <div *ngIf="loginForm.get('usuario')?.touched && loginForm.get('usuario')?.invalid">
                                             <small *ngIf="loginForm.get('usuario')?.errors?.['required']"
                                                 class="text-danger mt-1">Usuario es obligatorio.</small>
+                                            <small *ngIf="loginForm.get('usuario')?.errors?.['email']"
+                                                class="text-danger mt-1">Email incorrecto.</small>
                                         </div> 
                                     </div>
                                     <div class="mb-3">
@@ -101,13 +103,15 @@
                                         <div class="input-group mb-3">
                                             <input [type]="hide() ? 'text' : 'password'" formControlName="contrasena" class="form-control" placeholder="Contraseña" aria-label="contrasena" aria-describedby="contrasena"
                                             [class]="{'border-danger': registroForm.get('contrasena')?.touched && registroForm.get('contrasena')?.invalid }">
-                                            <button class="btn btn-outline-secondary i-cust" type="button" id="button-addon2"  (click)="clickEvent($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide()">
+                                            <button class="btn btn-outline-secondary i-cust" type="button" id="contrasena-r"  (click)="clickEvent($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide()">
                                                 <i [ngClass]="hide() ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
                                             </button>
                                         </div>
                                         <div *ngIf="registroForm.get('contrasena')?.touched && registroForm.get('contrasena')?.invalid">
                                             <small *ngIf="registroForm.get('contrasena')?.errors?.['required']"
                                                 class="text-danger mt-1">contraseña es obligatorio.</small>
+                                            <small *ngIf="registroForm.get('contrasena')?.errors?.['email']"
+                                                class="text-danger mt-1">Email incorrecto.</small>
                                         </div>
                                     </div>
                                     <div class="mb-3">
@@ -115,7 +119,7 @@
                                         <div class="input-group mb-3">
                                             <input [type]="hide() ? 'text' : 'password'" formControlName="repetirContrasena" id="contrasena-repeat" class="form-control" placeholder="Contraseña" aria-label="Recipient's username" aria-describedby="button-addon2"
                                             [class]="{'border-danger': registroForm.get('repetirContrasena')?.touched && registroForm.get('repetirContrasena')?.invalid }">
-                                            <button class="btn btn-outline-secondary i-cust" type="button" id="button-addon2"  (click)="clickEvent($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide()">
+                                            <button class="btn btn-outline-secondary i-cust" type="button" id="repetir-contrasena"  (click)="clickEvent($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide()">
                                                 <i [ngClass]="hide() ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
                                             </button>
                                         </div>
