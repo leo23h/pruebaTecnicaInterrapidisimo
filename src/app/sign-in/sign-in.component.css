@@ -38,6 +38,7 @@
 }
 
 .nav-link{
+    background-color:#e2e2e2 ;
     color: #03010c;
 }
 
@@ -84,4 +85,5 @@
 .icon-cust:hover{
     color: #ca6108;
 }
+/* #f8f9fa */
 /* #ca6108 */
