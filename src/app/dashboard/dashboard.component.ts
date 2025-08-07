@@ -18,8 +18,5 @@ export class DashboardComponent implements OnInit {
     this.router.navigateByUrl(`${urlToNavigate}`);
   }
 
-  irAMaterias(route: string) {
-    this.navigateTo(route);
-  }
 
 }
