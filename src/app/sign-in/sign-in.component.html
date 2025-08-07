@@ -1,0 +1,104 @@
+<div class="px-4 py-5 px-md-5 text-center text-lg-start bg-body-tertiary h-100">
+    <div class="container mt-5">
+        <div class="row align-items-center text-left ">
+          <div class="col-6">
+               <img src="assets/img/interrapidisimo_logo.jpg" class="img-logo" alt="imagen interrapisimo">
+              <h2 class="mt-2 mb-2">
+                  Prueba Técnica 
+              </h2>
+          </div>
+          <div class="col-6">
+            <div class="card">
+                <div class="card-body p-5">
+                   <ul class="nav nav-pills nav-justified mb-3">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" href="javascript:void(0)" data-bs-toggle="tab" data-bs-target="#pills-login" aria-selected="true">Ingresar</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" href="javascript:void(0)" data-bs-toggle="tab" data-bs-target="#pills-register" aria-controls="pills-login" aria-selected="true">Registrar</a>
+                    </li>
+                   </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
+                            <div class="pt-5">
+                                <form>
+                                    <div class="mb-3">
+                                      <label for="correo-electronico" class="form-label">Correo Electrónico</label>
+                                      <input type="email" class="form-control i-cust" id="correo-electronico" placeholder="Correo Electrónico" aria-describedby="correo">
+                                    </div>
+                                    <div class="mb-3">
+                                      <label for="contrasena" class="form-label">Contraseña</label>
+                                      <input type="password" class="form-control i-cust" id="contrasena" placeholder="Contraseña">
+                                    </div>
+                                    <div class="mt-4 text-center">
+                                        <button type="button" class="btn btn-primary mt-4 b-cust">Iniciar Sesión</button>
+                                    </div>
+                                    <div class="mt-3 text-center">
+                                        <span>¿No estas registrado? <a class="l-cust" href="javascript:void(0)" data-bs-toggle="tab" data-bs-target="#pills-register">registrate aquí</a></span>
+                                    </div>
+                                    <div class="mt-5 text-center">
+                                        <div class="text-center">
+                                            <span>O registrate por:</span>
+                                        </div>
+                                        <button type="button" data-mdb-button-init="" data-mdb-ripple-init="" class="btn btn-link btn-floating mx-1" data-mdb-button-initialized="true" style="">
+                                            <i class="fab fa-facebook-f icon-cust"></i>
+                                        </button>
+                                        <button type="button" data-mdb-button-init="" data-mdb-ripple-init="" class="btn btn-link btn-floating mx-1" data-mdb-button-initialized="true" style="" aria-pressed="true">
+                                            <i class="fab fa-google icon-cust"></i>
+                                        </button>
+                                        <button type="button" data-mdb-button-init="" data-mdb-ripple-init="" class="btn btn-link btn-floating mx-1" data-mdb-button-initialized="true" style="" aria-pressed="true">
+                                            <i class="fab fa-twitter icon-cust"></i>
+                                        </button>
+                                        <button type="button" data-mdb-button-init="" data-mdb-ripple-init="" class="btn btn-link btn-floating mx-1" data-mdb-button-initialized="true">
+                                            <i class="fab fa-github icon-cust"></i>
+                                        </button>
+                                    </div>
+                                  </form>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-register" role="tabregister" aria-labelledby="tab-register">
+                            <div class="pt-5">
+                                <form class="row">
+                                    <div class="mb-3">
+                                        <label for="identificacion" class="form-label">Identificación</label>
+                                        <input type="text" class="form-control i-cust" id="identificacion" placeholder="Contraseña">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="nombre" class="form-label">Nombre</label>
+                                        <input type="text" class="form-control i-cust" id="correo-electronico" placeholder="Correo Electrónico" aria-describedby="correo">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="apellido" class="form-label">Apellido</label>
+                                        <input type="text" class="form-control i-cust" id="apellido" placeholder="Apellido">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="contrasena-r" class="form-label">Contraseña</label>
+                                        <div class="input-group mb-3">
+                                            <input [type]="hide() ? 'text' : 'password'" class="form-control" placeholder="Contraseña" aria-label="Recipient's username" aria-describedby="button-addon2">
+                                            <button class="btn btn-outline-secondary i-cust" type="button" id="button-addon2"  (click)="clickEvent($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide()">
+                                                <i [ngClass]="hide() ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="contrasena-repeat" class="form-label">Repetir Contraseña</label>
+                                        <div class="input-group mb-3">
+                                            <input [type]="hide() ? 'text' : 'password'"  id="contrasena-repeat" class="form-control" placeholder="Contraseña" aria-label="Recipient's username" aria-describedby="button-addon2">
+                                            <button class="btn btn-outline-secondary i-cust" type="button" id="button-addon2"  (click)="clickEvent($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide()">
+                                                <i [ngClass]="hide() ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 text-center">
+                                        <button type="button" class="btn btn-primary mt-4 b-cust">Registrar usuario</button>
+                                    </div>
+                               </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
