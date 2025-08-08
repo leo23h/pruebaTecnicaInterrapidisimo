@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MenuComponent } from '../shared/components/menu/menu.component';
 import { Estudiante } from '../shared/models/estudiante.interface';
 import { Materia } from '../shared/models/materia.interface';
@@ -9,7 +9,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 
 @Component({
   selector: 'app-dashboard',
-  imports: [MenuComponent, FormsModule,  ReactiveFormsModule],
+  imports: [MenuComponent, FormsModule,  ReactiveFormsModule, RouterLink],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
@@ -71,7 +71,8 @@ export class DashboardComponent implements OnInit {
   }
 
   navigateTo(urlToNavigate: string, id?: number) {
-    this.router.navigateByUrl(`${urlToNavigate}`);
+    console.log("urlToNavigate")
+    this.router.navigate([`/${urlToNavigate}`]);
   }
 
   // Pagination

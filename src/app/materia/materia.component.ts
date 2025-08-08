@@ -1,11 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Materia } from '../shared/models/materia.interface';
 import { MenuComponent } from '../shared/components/menu/menu.component';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-materia',
-  imports: [MenuComponent],
+  imports: [MenuComponent, RouterLink],
   templateUrl: './materia.component.html',
   styleUrl: './materia.component.css'
 })

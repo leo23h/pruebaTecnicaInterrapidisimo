@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Estudiante } from '../shared/models/estudiante.interface';
 import { MenuComponent } from '../shared/components/menu/menu.component';
 
 @Component({
   selector: 'app-estudiante',
-  imports: [MenuComponent],
+  imports: [MenuComponent, RouterLink],
   templateUrl: './estudiante.component.html',
   styleUrl: './estudiante.component.css'
 })
@@ -27,15 +27,15 @@ export class EstudianteComponent {
    
   }
   ngOnInit(): void {
-    this.getMaterias();
+    this.getEstudiantes();
   }
 
-  getMaterias() {
+  getEstudiantes() {
     this.EstudianteList = [
       { id: 1, nombre: 'Leonardo', apellido: 'Herrera', email: 'leonardo@univerdidad.com', telefono: '1234567890', materias: [
-        // { id: 9, nombre: 'Ingenieria de software I', codigo: 'ING101', creditos: 3 },
-        // { id: 6, nombre: 'Estructura de Datos', codigo: 'EST001', creditos: 3 },
-        // { id: 3, nombre: 'Algoritmos I', codigo: 'QUI101', creditos: 3 }
+        { id: 9, nombre: 'Ingenieria de software I', codigo: 'ING101', creditos: 3 },
+        { id: 6, nombre: 'Estructura de Datos', codigo: 'EST001', creditos: 3 },
+        { id: 3, nombre: 'Algoritmos I', codigo: 'ALG101', creditos: 3 }
         ]
       },
       { id: 2, nombre: 'Joseph', apellido: 'Ariza', email: 'Joseph@univerdidad.com', telefono: '987456321', materias: [
@@ -89,7 +89,7 @@ export class EstudianteComponent {
     }
 
     navigateTo (urlToNavigate: string, id?: number) {
-      this.router.navigateByUrl(`${urlToNavigate}`);
+      this.router.navigate([`/${urlToNavigate}`]);
     }
 
     // mostrarDetalle(profesor: Profesor) {

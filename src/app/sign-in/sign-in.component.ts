@@ -67,6 +67,6 @@ export class SignInComponent implements OnInit {
   }
 
   navigateTo(urlToNavigate: string, id?: number) {
-    this.router.navigateByUrl(`${urlToNavigate}`);
+    this.router.navigate([`/${urlToNavigate}`]);
   }
 }

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Profesor } from '../shared/models/profesor.interface';
 import { MenuComponent } from '../shared/components/menu/menu.component';
 import {
@@ -15,7 +15,7 @@ import { ProfesorDetalleComponent } from '../profesor-detalle/profesor-detalle.c
 
 @Component({
   selector: 'app-profesor',
-  imports: [MenuComponent],
+  imports: [MenuComponent, RouterLink],
   standalone: true,
   templateUrl: './profesor.component.html',
   styleUrl: './profesor.component.css'
@@ -107,7 +107,7 @@ export class ProfesorComponent {
     }
 
     navigateTo (urlToNavigate: string, id?: number) {
-      this.router.navigateByUrl(`${urlToNavigate}`);
+      this.router.navigate([`/${urlToNavigate}`]);
     }
 
     mostrarDetalle(profesor: Profesor) {

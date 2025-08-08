@@ -28,7 +28,7 @@
                 <div class="card-body p-3">
                     <div class="title-card">Materias existentes</div>
                     <div class="text-center pt-3">
-                        <span class="txt-result"><a class="lnk-item" href="#" (click)="navigateTo('subject')">10</a></span>
+                        <span class="txt-result"><a class="lnk-item" [routerLink]="['/materia']">10</a></span>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                 <div class="card-body p-3">
                     <div class="title-card">Profesores</div>
                     <div class="text-center pt-3">
-                        <span class="txt-result"><a class="lnk-item" href="#" (click)="navigateTo('teachers')">5</a></span>
+                        <span class="txt-result"><a class="lnk-item" [routerLink]="['/profesor']">5</a></span>
                     </div>
                 </div>
             </div>
@@ -57,9 +57,7 @@
               </div>
         </div>
     }
-   
     <!-- tabla de registro del estudiante -->
-    
     @if(matriculoMaterias){
         <div class="row pt-5">
             <div class="col-12">
@@ -67,6 +65,7 @@
             </div>
             <div class="col-12 text-end">
                 <button type="button" class="btn btn-custom btn-lg" (click)="mostrarComponenteAgregarMateria()" ><i class="fa-solid fa-plus"></i>Matricular Materias</button>
+                <button type="button" class="btn btn-custom btn-lg ms-3" (click)="navigateTo('estudiante')">Ir a Estudiantes <i class="fa-solid fa-arrow-right"></i></button>
             </div>
             @if (mostrarAgregarMateria) {
                 <div class="col-12 pt-4">
