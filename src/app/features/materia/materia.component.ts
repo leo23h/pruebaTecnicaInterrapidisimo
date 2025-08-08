@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Materia } from '../../shared/models/materia.interface';
 import { MenuComponent } from '../../shared/components/menu/menu.component';
 import { Router, RouterLink } from '@angular/router';
+import { MateriaService } from '../../core/services/materia.service';
 
 @Component({
   selector: 'app-materia',
@@ -11,6 +12,7 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class MateriaComponent implements OnInit {
   private  router = inject(Router);
+  private materiaService = inject(MateriaService);
 
   pageSize = 10;
   currentPage = 1;
@@ -29,21 +31,7 @@ export class MateriaComponent implements OnInit {
   }
 
   getMaterias() {
-    this.materias = [
-      { id: 1, nombre: 'Matemáticas Discretas', codigo: 'MAT101', creditos: 3 },
-      { id: 2, nombre: 'Física Mecánica', codigo: 'FIS101', creditos: 3 },
-      { id: 3, nombre: 'Algoritmos I', codigo: 'QUI101', creditos: 3 },
-      { id: 4, nombre: 'Programación I', codigo: 'PROG01', creditos: 3 },
-      { id: 5, nombre: 'Algoritmos I', codigo: 'ALG001', creditos: 3 },
-      { id: 6, nombre: 'Estructura de Datos', codigo: 'EST001', creditos: 3 },
-      { id: 7, nombre: 'Base de Datos', codigo: 'BASED001', creditos: 3 },
-      { id: 8, nombre: 'Teoria de Automatas', codigo: 'TEA001', creditos: 3 },
-      { id: 9, nombre: 'Ingenieria de software I', codigo: 'ING101', creditos: 3 },
-      { id: 10, nombre: 'Automatización', codigo: 'AUT101', creditos: 3 },
-      { id: 10, nombre: 'Automatización2', codigo: 'AUT101', creditos: 3 },
-      { id: 10, nombre: 'Automatización3', codigo: 'AUT101', creditos: 3 }
-    ];
-
+    this.materias = this.materiaService.getMaterias();
     this.totalPages = Math.ceil(this.materias.length / this.pageSize);
     this.currentPage = 1;
     this.updatePaginatedData();

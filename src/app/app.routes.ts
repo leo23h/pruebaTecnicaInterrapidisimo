@@ -1,11 +1,10 @@
 import { Routes } from '@angular/router';
-import { SignInComponent } from './sign-in/sign-in.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { MateriaComponent } from './materia/materia.component';
-import { EstudianteComponent } from './estudiante/estudiante.component';
-import { EstudianteDetalleComponent } from './estudiante-detalle/estudiante-detalle.component';
-import { ProfesorComponent } from './profesor/profesor.component';
-import { NotfoundComponent } from '../shared/components/notfound/notfound.component';
+import { SignInComponent } from './features/sign-in/sign-in.component';
+import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { MateriaComponent } from './features/materia/materia.component';
+import { EstudianteComponent } from './features/estudiante/estudiante.component';
+import { ProfesorComponent } from './features/profesor/profesor.component';
+import { NotfoundComponent } from './shared/components/notfound/notfound.component';
 
 export const routes: Routes = [
   { path: '', component: DashboardComponent },

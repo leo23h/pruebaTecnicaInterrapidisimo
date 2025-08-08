@@ -12,6 +12,7 @@ import {
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { ProfesorDetalleComponent } from '../profesor-detalle/profesor-detalle.component';
+import { profesorService } from '../../core/services/profesor.service';
 
 @Component({
   selector: 'app-profesor',
@@ -23,6 +24,7 @@ import { ProfesorDetalleComponent } from '../profesor-detalle/profesor-detalle.c
 export class ProfesorComponent {
   private  router = inject(Router);
   readonly dialog = inject(MatDialog);
+  private profesoresService = inject(profesorService);
 
   pageSize = 10;
   currentPage = 1;
@@ -41,29 +43,7 @@ export class ProfesorComponent {
   }
 
   getProfesores() {
-    this.profesoresList = [
-      { id: 1, nombre: 'Darwin', apellido: 'Mercado', email: 'profesor1@univerdidad.com', telefono: '1234567890', materias: [
-        { id: 9, nombre: 'Ingenieria de software I', codigo: 'ING101', creditos: 3 },
-        { id: 10, nombre: 'Automatización', codigo: 'AUT101', creditos: 3 }]
-      },
-      { id: 1, nombre: 'Paola', apellido: 'Ariza', email: 'profesor2@univerdidad.com', telefono: '987456321', materias: [
-        { id: 6, nombre: 'Estructura de Datos', codigo: 'EST001', creditos: 3 },
-        { id: 7, nombre: 'Base de Datos', codigo: 'BASED001', creditos: 3 }]
-      },
-      { id: 1, nombre: 'Alexis', apellido: 'De la Hoz', email: 'profesor3@univerdidad.com', telefono: '9632587441', materias: [
-        { id: 3, nombre: 'Algoritmos I', codigo: 'QUI101', creditos: 3 },
-        { id: 4, nombre: 'Programación I', codigo: 'PROG01', creditos: 3 }]
-      },
-      { id: 1, nombre: 'Jorge', apellido: 'Piñeres', email: 'profesor4@univerdidad.com', telefono: '456789123', materias: [
-        { id: 9, nombre: 'Ingenieria de software I', codigo: 'ING101', creditos: 3 },
-        { id: 10, nombre: 'Ingenieria de software 2', codigo: 'AUT101', creditos: 3 }]
-      },
-      { id: 1, nombre: 'Roberto', apellido: 'Morales', email: 'profesor5@univerdidad.com', telefono: '123789456', materias: [
-        { id: 1, nombre: 'Matemáticas Discretas', codigo: 'MAT101', creditos: 3 },
-      { id: 2, nombre: 'Física Mecánica', codigo: 'FIS101', creditos: 3 }]
-      },
-    ];
-
+    this.profesoresList = this.profesoresService.getProfesores();
     this.totalPages = Math.ceil(this.profesoresList.length / this.pageSize);
     this.currentPage = 1;
     this.updatePaginatedData();

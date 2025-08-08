@@ -12,6 +12,7 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
+import { EstudianteService } from '../../core/services/estudiante.service';
 
 @Component({
   selector: 'app-estudiante',
@@ -22,6 +23,7 @@ import {
 export class EstudianteComponent {
   private  router = inject(Router);
   readonly dialog = inject(MatDialog);
+  private estudianteService = inject(EstudianteService);
 
   pageSize = 10;
   currentPage = 1;
@@ -40,21 +42,7 @@ export class EstudianteComponent {
   }
 
   getEstudiantes() {
-    this.EstudianteList = [
-      { id: 1, nombre: 'Leonardo', apellido: 'Herrera', email: 'leonardo@univerdidad.com', telefono: '1234567890', materias: [
-        { id: 9, nombre: 'Ingenieria de software I', codigo: 'ING101', creditos: 3 },
-        { id: 6, nombre: 'Estructura de Datos', codigo: 'EST001', creditos: 3 },
-        { id: 3, nombre: 'Algoritmos I', codigo: 'ALG101', creditos: 3 }
-        ]
-      },
-      { id: 2, nombre: 'Joseph', apellido: 'Ariza', email: 'Joseph@univerdidad.com', telefono: '987456321', materias: [
-        { id: 6, nombre: 'Estructura de Datos', codigo: 'EST001', creditos: 3 },
-        { id: 7, nombre: 'Base de Datos', codigo: 'BASED001', creditos: 3 },
-        { id: 10, nombre: 'Automatización', codigo: 'AUT101', creditos: 3 }]
-      },
-      
-    ];
-
+    this.EstudianteList = this.estudianteService.getEstudiantes();
     this.totalPages = Math.ceil(this.EstudianteList.length / this.pageSize);
     this.currentPage = 1;
     this.updatePaginatedData();
