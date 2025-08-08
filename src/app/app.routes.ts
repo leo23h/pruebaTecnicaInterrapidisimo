@@ -5,7 +5,7 @@ import { MateriaComponent } from './materia/materia.component';
 import { EstudianteComponent } from './estudiante/estudiante.component';
 import { EstudianteDetalleComponent } from './estudiante-detalle/estudiante-detalle.component';
 import { ProfesorComponent } from './profesor/profesor.component';
-import { NotfoundComponent } from './notfound/notfound.component';
+import { NotfoundComponent } from '../shared/components/notfound/notfound.component';
 
 export const routes: Routes = [
   { path: '', component: DashboardComponent },
