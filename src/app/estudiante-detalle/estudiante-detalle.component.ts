@@ -16,4 +16,6 @@ export class EstudianteDetalleComponent {
   cerrarModal() {
     this.dialogRef.close();
   }
+
+  
 }

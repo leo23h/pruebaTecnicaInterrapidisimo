@@ -111,8 +111,10 @@
                             <td class="text-center fs-6">{{ item.creditos }}</td>
                             <td class="text-center fs-6">{{ getProfesorById(item.profesorId!) }}</td>
                             <td class="text-center">
-                                <a class="btn btn-custom" (click)="mostrarDetalle(item)" title="Detalle docente"><i class="fa-regular fa-file-lines fa-2x"></i></a>
-                        </tr>
+                                <a class="btn" (click)="mostrarDetalle(item)" title="Detalle materia"><i class="fa-regular fa-file-lines fa-2x"></i></a>
+                                <a class="btn" (click)="eliminarMaterias(item.id!)" title="Eliminar materia"><i class="fa-solid fa-trash-can fa-2x"></i></a>
+                                
+                            </tr>
                         }
                     </tbody>
                 </table>

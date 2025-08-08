@@ -5,16 +5,25 @@ import { Estudiante } from '../shared/models/estudiante.interface';
 import { Materia } from '../shared/models/materia.interface';
 import { Profesor } from '../shared/models/profesor.interface';
 import Swal from 'sweetalert2';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MateriaDetalleComponent } from '../materia-detalle/materia-detalle.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [MenuComponent, FormsModule,  ReactiveFormsModule, RouterLink],
+  imports: [MenuComponent, FormsModule, ReactiveFormsModule, RouterLink],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent implements OnInit {
   private router = inject(Router);
+  readonly dialog = inject(MatDialog);
 
   pageSize = 10;
   currentPage = 1;
@@ -38,7 +47,6 @@ export class DashboardComponent implements OnInit {
     'Docente',
     'Acciones',
   ];
-  
 
   ngOnInit(): void {
     this.crearFormulario();
@@ -71,7 +79,7 @@ export class DashboardComponent implements OnInit {
   }
 
   navigateTo(urlToNavigate: string, id?: number) {
-    console.log("urlToNavigate")
+    console.log('urlToNavigate');
     this.router.navigate([`/${urlToNavigate}`]);
   }
 
@@ -280,7 +288,7 @@ export class DashboardComponent implements OnInit {
 
   matricularMaterias(materiaId: number) {
     const materia = this.materias.find((m) => m.id === Number(materiaId));
-    if(materia){
+    if (materia) {
       if (this.materiasMatriculadasList.length > 2) {
         Swal.fire({
           title: '¡Error!',
@@ -303,6 +311,7 @@ export class DashboardComponent implements OnInit {
           return;
         } else {
           // Matricular la materia
+          materia.estudianteId = this.estudianteList[0].id;
           this.materiasMatriculadasList.push(materia);
           this.estudianteList[0].materias?.push(materia);
           Swal.fire({
@@ -317,7 +326,9 @@ export class DashboardComponent implements OnInit {
     this.materiaForm.reset();
     this.profesorSeleccionado = '';
     // paginador
-    this.totalPages = Math.ceil(this.materiasMatriculadasList.length / this.pageSize);
+    this.totalPages = Math.ceil(
+      this.materiasMatriculadasList.length / this.pageSize
+    );
     this.currentPage = 1;
     this.updatePaginatedData();
     this.generatePages();
@@ -326,48 +337,64 @@ export class DashboardComponent implements OnInit {
   }
 
   eliminarMaterias(materiaId: number) {
-    // remover la materia de la lista principal
-    let indexMateriaMatriculada = this.materiasMatriculadasList.findIndex(
-      (item) => item.id === materiaId
-    );
-    this.materiasMatriculadasList = this.materiasMatriculadasList.slice(
-      indexMateriaMatriculada,
-      1
-    );
-    // remover la materia de la lista del estudiante
-    let indexMateria = this.estudianteList[0].materias?.findIndex(
-      (item) => item.id === materiaId
-    );
-    this.estudianteList[0].materias = this.estudianteList[0].materias?.slice(
-      indexMateria,
-      1
-    );
-    // paginador
-    this.totalPages = Math.ceil(this.materiasMatriculadasList.length / this.pageSize);
-    this.currentPage = 1;
-    this.updatePaginatedData();
-    this.generatePages();
+    Swal.fire({
+      title: '¿Estas seguro de eliminar la materia?',
+      showDenyButton: true,
+      confirmButtonText: 'Eliminar',
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        // remover la materia de la lista principal
+        let indexMateriaMatriculada = this.materiasMatriculadasList.findIndex(
+          (item) => item.id === Number(materiaId)
+        );
+         this.materiasMatriculadasList.splice(indexMateriaMatriculada, 1 );
+        this.paginatedData = this.materiasMatriculadasList;
+        this.estudianteList[0].materias?.splice(indexMateriaMatriculada, 1);
+        // paginador
+        this.totalPages = Math.ceil(
+          this.materiasMatriculadasList.length / this.pageSize
+        );
+        this.currentPage = 1;
+        this.updatePaginatedData();
+        this.generatePages();
+      } else if (result.isDenied) {
+        Swal.fire('La materia no se eliminó', '', 'info');
+      }
+    });
   }
 
   getProfesorById(id: number): string {
-    let profesor = this.profesoresList.find((profesor) => profesor.id === Number(id));
+    let profesor = this.profesoresList.find(
+      (profesor) => profesor.id === Number(id)
+    );
     return profesor?.nombre + ' ' + profesor?.apellido;
   }
 
-  mostrarDetalle(item: Materia){
-    console.log("revisar detalle", item);
+  mostrarDetalle(item: Materia) {
+    console.log('Detalles de Materia:', item);
+    const dialogRef = this.dialog.open(MateriaDetalleComponent, {
+      height: '400px',
+      width: '600px',
+      data: {...item},
+    });
+
+    dialogRef.disableClose = true;
   }
 
-  mostrarTablaMaterias(){
+  mostrarTablaMaterias() {
     this.matriculoMaterias = true;
   }
 
   seleccionarMateria(idMateria: number) {
     const materia = this.materias.find((m) => m.id === Number(idMateria));
-    this.profesorSeleccionado = this.getProfesorById(Number(materia?.profesorId));
+    this.profesorSeleccionado = this.getProfesorById(
+      Number(materia?.profesorId)
+    );
   }
 
-  sumarCreditosMateria(){
+  sumarCreditosMateria() {
     let totalCreditos = 0;
     this.materiasMatriculadasList.forEach((materia) => {
       totalCreditos += materia.creditos;
@@ -382,4 +409,5 @@ export class DashboardComponent implements OnInit {
       this.profesorSeleccionado = '';
     }
   }
+
 }
