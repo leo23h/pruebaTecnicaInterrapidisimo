@@ -1,8 +1,17 @@
 import { Component, inject } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterLink } from '@angular/router';
 import { Estudiante } from '../shared/models/estudiante.interface';
 import { MenuComponent } from '../shared/components/menu/menu.component';
+import { EstudianteDetalleComponent } from '../estudiante-detalle/estudiante-detalle.component';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle,
+} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-estudiante',
@@ -92,14 +101,14 @@ export class EstudianteComponent {
       this.router.navigate([`/${urlToNavigate}`]);
     }
 
-    // mostrarDetalle(profesor: Profesor) {
-    //   console.log('Detalles del profesor:', profesor);
-    //   const dialogRef = this.dialog.open(ProfesorDetalleComponent, {
-    //     height: '400px',
-    //     width: '600px',
-    //     data: {...profesor},
-    //   });
+    mostrarDetalle(estudiante: Estudiante) {
+      console.log('Detalles del estudiante:', estudiante);
+      const dialogRef = this.dialog.open(EstudianteDetalleComponent, {
+        height: '400px',
+        width: '600px',
+        data: {...estudiante},
+      });
 
-    //   dialogRef.disableClose = true;
-    // }
+      dialogRef.disableClose = true;
+    }
 }

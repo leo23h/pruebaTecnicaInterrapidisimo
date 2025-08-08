@@ -1,1 +1,37 @@
-<p>estudiante-detalle works!</p>
+<div class="pt-3 px-5">
+    <h3 class="txt-title mt-4">Detalle Docente</h3>
+    <div class="line"></div>
+    <div class="row">
+        <div class="col-12 mt-4">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Nombre:</strong> {{ estudiante.nombre }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Apellido:</strong> {{ estudiante.apellido }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Teléfono:</strong> {{ estudiante.telefono }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Email:</strong> {{ estudiante.email }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <strong>Materias Asignadas:</strong>
+                    <ul>
+                        @for(materia of estudiante.materias; track materia) {
+                        <li>{{ materia.codigo }} - {{ materia.nombre }} ({{ materia.creditos }} créditos)</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="text-end mb-4">
+                <button class="btn btn-custom" (click)="cerrarModal()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
