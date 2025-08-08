@@ -3,5 +3,7 @@ export interface Materia {
     nombre: string;
     codigo: string;
     creditos: number;
+    profesorId?: number;
+    estudianteId?: number | null;
     fechaCreacion?: string;
 }

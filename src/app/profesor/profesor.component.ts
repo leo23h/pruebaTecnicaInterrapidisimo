@@ -30,17 +30,17 @@ export class ProfesorComponent {
   pages: number[] = [];
   profesoresList: Profesor[] = [];
   paginatedData = this.profesoresList;
-  displayedColumns: string[] = ['Nombre', 'Apellido', 'Email', 'Telefono', 'Código Asignaturas', 'Acciones'];
+  displayedColumns: string[] = ['Nombre', 'Apellido', 'Teléfono', 'Email', 'Código Asignaturas', 'Acciones'];
   
   constructor() {
     // Simulación de datos de materias
    
   }
   ngOnInit(): void {
-    this.getMaterias();
+    this.getProfesores();
   }
 
-  getMaterias() {
+  getProfesores() {
     this.profesoresList = [
       { id: 1, nombre: 'Darwin', apellido: 'Mercado', email: 'profesor1@univerdidad.com', telefono: '1234567890', materias: [
         { id: 9, nombre: 'Ingenieria de software I', codigo: 'ING101', creditos: 3 },
@@ -56,7 +56,7 @@ export class ProfesorComponent {
       },
       { id: 1, nombre: 'Jorge', apellido: 'Piñeres', email: 'profesor4@univerdidad.com', telefono: '456789123', materias: [
         { id: 9, nombre: 'Ingenieria de software I', codigo: 'ING101', creditos: 3 },
-        { id: 10, nombre: 'Automatización', codigo: 'AUT101', creditos: 3 }]
+        { id: 10, nombre: 'Ingenieria de software 2', codigo: 'AUT101', creditos: 3 }]
       },
       { id: 1, nombre: 'Roberto', apellido: 'Morales', email: 'profesor5@univerdidad.com', telefono: '123789456', materias: [
         { id: 1, nombre: 'Matemáticas Discretas', codigo: 'MAT101', creditos: 3 },
