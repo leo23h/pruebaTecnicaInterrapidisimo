@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Materia } from '../shared/models/materia.interface';
+import { Materia } from '../../shared/models/materia.interface';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Estudiante } from '../shared/models/estudiante.interface';
-import { Profesor } from '../shared/models/profesor.interface';
+import { Estudiante } from '../../shared/models/estudiante.interface';
+import { Profesor } from '../../shared/models/profesor.interface';
 
 @Component({
   selector: 'app-materia-detalle',

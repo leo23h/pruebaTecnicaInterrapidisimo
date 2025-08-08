@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Estudiante } from '../shared/models/estudiante.interface';
+import { Estudiante } from '../../shared/models/estudiante.interface';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({

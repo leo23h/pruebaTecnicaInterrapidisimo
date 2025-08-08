@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Materia } from '../shared/models/materia.interface';
-import { MenuComponent } from '../shared/components/menu/menu.component';
+import { Materia } from '../../shared/models/materia.interface';
+import { MenuComponent } from '../../shared/components/menu/menu.component';
 import { Router, RouterLink } from '@angular/router';
 
 @Component({

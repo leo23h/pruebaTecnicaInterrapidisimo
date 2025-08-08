@@ -1,6 +1,6 @@
 import { Component, inject, model } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Profesor } from '../shared/models/profesor.interface';
+import { Profesor } from '../../shared/models/profesor.interface';
 
 @Component({
   selector: 'app-profesor-detalle',

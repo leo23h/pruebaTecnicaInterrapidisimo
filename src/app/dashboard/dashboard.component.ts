@@ -1,9 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { MenuComponent } from '../shared/components/menu/menu.component';
-import { Estudiante } from '../shared/models/estudiante.interface';
-import { Materia } from '../shared/models/materia.interface';
-import { Profesor } from '../shared/models/profesor.interface';
+import { MenuComponent } from '../../shared/components/menu/menu.component';
+import { Estudiante } from '../../shared/models/estudiante.interface';
+import { Materia } from '../../shared/models/materia.interface';
+import { Profesor } from '../../shared/models/profesor.interface';
 import Swal from 'sweetalert2';
 import {
   FormControl,
@@ -373,7 +373,6 @@ export class DashboardComponent implements OnInit {
   }
 
   mostrarDetalle(item: Materia) {
-    console.log('Detalles de Materia:', item);
     const dialogRef = this.dialog.open(MateriaDetalleComponent, {
       height: '400px',
       width: '600px',

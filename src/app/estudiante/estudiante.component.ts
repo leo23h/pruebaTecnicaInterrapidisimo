@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { Estudiante } from '../shared/models/estudiante.interface';
-import { MenuComponent } from '../shared/components/menu/menu.component';
+import { Estudiante } from '../../shared/models/estudiante.interface';
+import { MenuComponent } from '../../shared/components/menu/menu.component';
 import { EstudianteDetalleComponent } from '../estudiante-detalle/estudiante-detalle.component';
 import {
   MAT_DIALOG_DATA,
