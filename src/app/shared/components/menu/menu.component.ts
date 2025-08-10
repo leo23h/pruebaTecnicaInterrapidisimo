@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Estudiante } from '../../models/estudiante.interface';
 import { SignInService } from '../../../core/services/signin.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -14,19 +15,19 @@ export class MenuComponent implements OnInit {
   private  router = inject(Router);
   private signedInService = inject(SignInService);
   estudianteInfo: Estudiante = {} as Estudiante;
+  private subscription: Subscription | undefined;
 
   ngOnInit(): void {
-    this.estudianteInfo = JSON.parse(sessionStorage.getItem('estudiante') || '{}');
-    this.obtenerInformacionEstudiante();
+    this.cargarInformacionEstudiante();
+  }
+  cargarInformacionEstudiante() {
+    setTimeout(() => {
+      this.estudianteInfo = JSON.parse(
+        sessionStorage.getItem('estudiante') || '{}'
+      );
+    }, 500);
   }
 
-
-  obtenerInformacionEstudiante() {
-    this.signedInService.getInformacionEstudiante().subscribe((response)=> {
-       this.estudianteInfo = response;
-       console.log("informacion estudiante en dashboard", this.estudianteInfo);
-     })
-   }
 
   cerrarSesion() {
     // Aquí puedes agregar la lógica para cerrar sesión

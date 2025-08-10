@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, inject, Injectable,} from '@angular/core';
+import { computed, inject, Injectable, signal,} from '@angular/core';
 import { catchError, Observable, Subject, throwError } from 'rxjs';
 import { Profesor } from '../../shared/models/profesor.interface';
 import { environment } from '../../../environments/environment';
@@ -13,15 +13,8 @@ import { Estudiante } from '../../shared/models/estudiante.interface';
 export class SignInService {
   private http = inject(HttpClient);
   private baseUrl = environment.baseUrl;
-  private informacionEstudiante = new Subject<Estudiante>();
+  public informacionEstudiante = signal({});
 
-  captureInformacionEstudiante(estudiante: Estudiante) {
-    this.informacionEstudiante.next(estudiante);
-  }
-
-  getInformacionEstudiante(): Observable<any> {
-    return this.informacionEstudiante.asObservable();
-  }
 
   iniciarSesion(usuario: string) {
     const url = `${this.baseUrl}${environment.prefijos.usuario}/GetusuarioByEmail`;
