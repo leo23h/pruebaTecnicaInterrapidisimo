@@ -1,0 +1,22 @@
+.line{
+    border: 1px solid #03010c;
+}
+
+.txt-title{
+    color: #03010c;
+}
+
+.btn.btn-active{
+    background-color: #ca6108;
+    color: #FFFFFF;
+    border: none;
+}
+
+.lnk-item{
+    color: #ca6108;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
