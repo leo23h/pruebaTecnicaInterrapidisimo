@@ -31,13 +31,20 @@ export class MateriaComponent implements OnInit {
   }
 
   getMaterias() {
-    this.materias = this.materiaService.getMaterias();
-    this.totalPages = Math.ceil(this.materias.length / this.pageSize);
-    this.currentPage = 1;
-    this.updatePaginatedData();
-    this.generatePages();
-  }
+    this.materiaService.obtenerTodasMaterias().subscribe({
+      next: (response) => {
+        this.materias = response;
+        this.totalPages = Math.ceil(this.materias.length / this.pageSize);
+        this.currentPage = 1;
+        this.updatePaginatedData();
+        this.generatePages();
+      },
+      error: (error) => {
+        console.error('Error al iniciar sesión:', error);
+      },
+    });
 
+  }
     // Pagination
     updatePaginatedData() {
       const start = (this.currentPage - 1) * this.pageSize;

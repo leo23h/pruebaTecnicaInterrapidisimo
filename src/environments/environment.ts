@@ -3,7 +3,7 @@ export const environment = {
     baseUrl: 'http://localhost:5122/',
     prefijos: {
         estudiante: 'api/Estudiantes',
-        profesore: 'api/Profesores',
+        profesor: 'api/Profesor',
         materia: 'api/Materia',
         usuario: 'api/Usuario',
     }

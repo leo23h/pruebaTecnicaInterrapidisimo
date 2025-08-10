@@ -7,3 +7,8 @@ export interface Materia {
     estudianteId?: number | null;
     fechaCreacion?: string;
 }
+
+export interface MateriaRequest {
+   idMateria: number;
+   idEstudiante: number;
+}

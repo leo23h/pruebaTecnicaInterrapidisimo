@@ -43,22 +43,19 @@ export class ProfesorComponent {
   }
 
   getProfesores() {
-    
     this.profesoresService.obtenerProfesores().subscribe({
       next: (response) => {
         console.log("profesores", response);
         this.profesoresList = response;
+        this.totalPages = Math.ceil(this.profesoresList.length / this.pageSize);
+        this.currentPage = 1;
+        this.updatePaginatedData();
+        this.generatePages();
       },
       error: (error) => {
         console.error('Error al iniciar sesión:', error);
       },
     });
-
-
-    this.totalPages = Math.ceil(this.profesoresList.length / this.pageSize);
-    this.currentPage = 1;
-    this.updatePaginatedData();
-    this.generatePages();
   }
 
     // Pagination
