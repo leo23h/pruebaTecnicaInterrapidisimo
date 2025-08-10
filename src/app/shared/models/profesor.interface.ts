@@ -7,5 +7,5 @@ export interface Profesor {
     email: string;
     telefono?: string;
     fechaCreacion?: string;
-    materias?: Materia[];
+    materiaAsignada?: Materia[];
 }

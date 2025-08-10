@@ -22,7 +22,7 @@
                         <td class="text-center fs-6">{{ item.email }}</td>
                         <td class="text-center fs-6">
                             <ul class="text-center"> 
-                                @for( materia of item.materias; track materia ) {
+                                @for( materia of item.materiaAsignada; track materia ) {
                                 <li>{{materia.codigo}}</li>
                                 }
                             </ul>

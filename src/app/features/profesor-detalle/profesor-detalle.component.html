@@ -23,7 +23,7 @@
                 <div class="col-12">
                     <strong>Materias Asignadas:</strong>
                     <ul>
-                        @for(materia of profesor.materias; track materia) {
+                        @for(materia of profesor.materiaAsignada; track materia) {
                         <li>{{ materia.codigo }} - {{ materia.nombre }} ({{ materia.creditos }} créditos)</li>
                         }
                     </ul>

@@ -2,13 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable,} from '@angular/core';
 import { catchError, Observable, Subject, throwError } from 'rxjs';
 import { Profesor } from '../../shared/models/profesor.interface';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class profesorService {
-//   private http = inject(HttpClient);
+  private http = inject(HttpClient);
+  private baseUrl = environment.baseUrl;
    
 
   getProfesores(): Profesor[] {
@@ -39,6 +41,11 @@ export class profesorService {
       ];
 
     return resp;
+  }
+
+  obtenerProfesores() {
+    const url = `${this.baseUrl}${environment.prefijos.profesor}/GetAllProfesores`;
+    return this.http.get<Profesor[]>(`${url}`);
   }
  
 

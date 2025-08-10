@@ -1,14 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable,} from '@angular/core';
 import { catchError, Observable, Subject, throwError } from 'rxjs';
-import { Materia } from '../../shared/models/materia.interface';
+import { Materia, MateriaRequest } from '../../shared/models/materia.interface';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class MateriaService {
-//   private http = inject(HttpClient);
+  private http = inject(HttpClient);
+  private baseUrl = environment.baseUrl;
 
   getMaterias(): Materia[] {
     // return this.http.get<any[]>('http://localhost:3000/estudiantes').pipe(
@@ -30,6 +32,26 @@ export class MateriaService {
       ];
 
     return resp;
+  }
+
+  obtenerTodasMaterias() {
+    const url = `${this.baseUrl}${environment.prefijos.materia}/GetAllMaterias`;
+    return this.http.get<Materia>(url)
+  }
+
+  matricularMateriasPorEstudiante(data: MateriaRequest) {
+    const url = `${this.baseUrl}${environment.prefijos.materia}/MatricularMateriasPorEstudiante`;
+    return this.http.post<any>(url, data)
+  }
+
+  eliminarMateriasPorEstudiante(data: MateriaRequest) {
+    const url = `${this.baseUrl}${environment.prefijos.materia}/EliminarMateriasPorEstudiante`;
+    return this.http.post<any>(url, data);
+  }
+
+  obtenerMateriasPorEstudiante(idEstudiante: number) {
+    const url = `${this.baseUrl}${environment.prefijos.materia}/GetMateriasPorIdEstudiante`;
+    return this.http.get<any>(`${url}/${idEstudiante}` );
   }
 
  
