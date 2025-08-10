@@ -1,5 +1,5 @@
 <div class="pt-3 px-5">
-    <h3 class="txt-title mt-4">Detalle Docente</h3>
+    <h3 class="txt-title mt-4">Detalle Estudiante</h3>
     <div class="line"></div>
     <div class="row">
         <div class="col-12 mt-4">
@@ -23,7 +23,7 @@
                 <div class="col-12">
                     <strong>Materias Asignadas:</strong>
                     <ul>
-                        @for(materia of estudiante.materias; track materia) {
+                        @for(materia of estudiante.materiaMatriculadas; track materia) {
                         <li>{{ materia.codigo }} - {{ materia.nombre }} ({{ materia.creditos }} créditos)</li>
                         }
                     </ul>

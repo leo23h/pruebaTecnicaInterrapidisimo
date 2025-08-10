@@ -42,11 +42,24 @@ export class EstudianteComponent {
   }
 
   getEstudiantes() {
-    this.EstudianteList = this.estudianteService.getEstudiantes();
-    this.totalPages = Math.ceil(this.EstudianteList.length / this.pageSize);
-    this.currentPage = 1;
-    this.updatePaginatedData();
-    this.generatePages();
+    // this.EstudianteList = this.estudianteService.getEstudiantes();
+    // this.totalPages = Math.ceil(this.EstudianteList.length / this.pageSize);
+    // this.currentPage = 1;
+    // this.updatePaginatedData();
+    // this.generatePages();
+
+    this.estudianteService.obtenerEstudiantes().subscribe({
+      next: (response) => {
+        this.EstudianteList = response;
+        this.totalPages = Math.ceil(this.EstudianteList.length / this.pageSize);
+        this.currentPage = 1;
+        this.updatePaginatedData();
+        this.generatePages();
+      },
+      error: (error) => {
+        console.error('Error al iniciar sesión:', error);
+      },
+    });
   }
 
     // Pagination

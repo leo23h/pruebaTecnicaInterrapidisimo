@@ -7,6 +7,5 @@ export interface Estudiante{
     email: string;
     telefono?: string;
     fechaCreacion?: string;
-    
-    materias?: Materia[];
+    materiaMatriculadas?: Materia[];
 }
