@@ -174,7 +174,7 @@ export class SignInComponent implements OnInit {
     this.estudianteService.obtenerEstudiantePorUsuario(idUsuario).subscribe({
       next: (response) => {
         console.log('Información del estudiante:', response);
-        this.signinService.captureInformacionEstudiante(response);
+        this.signinService.informacionEstudiante.set(response);
         sessionStorage.setItem('estudiante', JSON.stringify(response));
       },
       error: (error) => {

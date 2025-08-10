@@ -1,8 +1,20 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  effect,
+  Inject,
+  inject,
+  OnInit,
+  PLATFORM_ID,
+} from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { MenuComponent } from '../../shared/components/menu/menu.component';
 import { Estudiante } from '../../shared/models/estudiante.interface';
-import { Materia, MateriaAsignada, MateriaRequest } from '../../shared/models/materia.interface';
+import {
+  Materia,
+  MateriaAsignada,
+  MateriaRequest,
+} from '../../shared/models/materia.interface';
 import { Profesor } from '../../shared/models/profesor.interface';
 import Swal from 'sweetalert2';
 import {
@@ -18,10 +30,18 @@ import { EstudianteService } from '../../core/services/estudiante.service';
 import { MateriaService } from '../../core/services/materia.service';
 import { profesorService } from '../../core/services/profesor.service';
 import { SignInService } from '../../core/services/signin.service';
+import { After } from 'v8';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
   imports: [MenuComponent, FormsModule, ReactiveFormsModule, RouterLink],
+  providers: [
+    EstudianteService,
+    MateriaService,
+    profesorService,
+    SignInService,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
@@ -57,31 +77,26 @@ export class DashboardComponent implements OnInit {
   ];
 
   ngOnInit(): void {
- 
-    this.estudianteInfo = JSON.parse(sessionStorage.getItem('estudiante') || '{}');
-    console.log("estudianteInfo", this.estudianteInfo)
     this.crearFormulario();
     this.getProfesores();
     this.getMaterias();
-    // this.obtenerInformacionEstudiante();
-    this.obtenerMateriasRegistradas(this.estudianteInfo.id!);
+    this.cargarMateriasPorEstudiante();
   }
-
-  // obtenerInformacionEstudiante() {
-  //  this.signedInService.getInformacionEstudiante().subscribe((response)=> {
-  //     this.estudianteInfo = response;
-  //     console.log("informacion estudiante en dashboard", this.estudianteInfo);
-  //     this.obtenerMateriasRegistradas(this.estudianteInfo.id!);
-  //   })
-  // }
-
+  
+  cargarMateriasPorEstudiante() {
+    setTimeout(() => {
+      this.estudianteInfo = JSON.parse(
+        sessionStorage.getItem('estudiante') || '{}'
+      );
+      this.obtenerMateriasRegistradas(this.estudianteInfo.id!);
+    }, 500);
+  }
 
   crearFormulario() {
     this.materiaForm = new FormGroup({
       materia: new FormControl('', [Validators.required]),
     });
   }
-
 
   getProfesores() {
     this.profesorService.obtenerProfesores().subscribe({
@@ -140,9 +155,7 @@ export class DashboardComponent implements OnInit {
         console.error('Error al iniciar sesión:', error);
       },
     });
-
   }
-
 
   obtenerMateriasRegistradas(usuarioId: number) {
     this.materiaService.obtenerMateriasPorEstudiante(usuarioId).subscribe({
@@ -188,7 +201,6 @@ export class DashboardComponent implements OnInit {
           return;
         } else {
           this.registrarMateria(materiaId);
-          
         }
       }
     }
@@ -209,10 +221,10 @@ export class DashboardComponent implements OnInit {
     let data: MateriaRequest = {
       idEstudiante: this.estudianteInfo.id!,
       idMateria: materiaId,
-    }
+    };
     this.materiaService.matricularMateriasPorEstudiante(data).subscribe({
       next: (response) => {
-        if(response){
+        if (response) {
           this.obtenerMateriasRegistradas(this.estudianteInfo.id!);
           Swal.fire({
             title: 'Success!',
@@ -241,7 +253,6 @@ export class DashboardComponent implements OnInit {
       if (result.isConfirmed) {
         // remover la materia de la lista principal
         this.eliminarMateriaPorEstudiante(materiaId);
-        
       } else if (result.isDenied) {
         Swal.fire('La materia no se eliminó', '', 'info');
       }
@@ -252,10 +263,10 @@ export class DashboardComponent implements OnInit {
     let data: MateriaRequest = {
       idEstudiante: this.estudianteInfo.id!,
       idMateria: materiaId,
-    }
+    };
     this.materiaService.eliminarMateriasPorEstudiante(data).subscribe({
       next: (response) => {
-        if(response){
+        if (response) {
           this.obtenerMateriasRegistradas(this.estudianteInfo.id!);
           // sumar creditos
           this.creditosMatriculados = this.sumarCreditosMateria();
@@ -278,7 +289,7 @@ export class DashboardComponent implements OnInit {
     const dialogRef = this.dialog.open(MateriaDetalleComponent, {
       height: '400px',
       width: '600px',
-      data: {...item},
+      data: { ...item },
     });
 
     dialogRef.disableClose = true;
@@ -310,5 +321,4 @@ export class DashboardComponent implements OnInit {
       this.profesorSeleccionado = '';
     }
   }
-
 }
