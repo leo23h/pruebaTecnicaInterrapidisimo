@@ -1,3 +1,5 @@
+import { Profesor } from "./profesor.interface";
+
 export interface Materia {
     id?: number;
     nombre: string;
@@ -11,4 +13,13 @@ export interface Materia {
 export interface MateriaRequest {
    idMateria: number;
    idEstudiante: number;
+}
+
+export interface MateriaAsignada {
+    id?: number;
+    nombre: string;
+    codigo: string;
+    creditos: number;
+    profesor?: Profesor;
+    fechaCreacion?: string;
 }

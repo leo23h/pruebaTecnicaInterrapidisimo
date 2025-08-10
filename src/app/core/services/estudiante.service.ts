@@ -19,7 +19,7 @@ export class EstudianteService {
   }
 
   obtenerEstudiantePorUsuario(idUsuario: number) {
-    const url = `${this.baseUrl}${environment.prefijos.estudiante}/GetEstudianteByUsuario`;
+    const url = `${this.baseUrl}${environment.prefijos.estudiante}/GetEstudianteByIdUsuario`;
     return this.http.get<Estudiante>(`${url}/${idUsuario}`);
   }
  

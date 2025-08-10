@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { SignInService } from '../../core/services/signin.service';
 import Swal from 'sweetalert2';
+import { EstudianteService } from '../../core/services/estudiante.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -30,6 +31,7 @@ export class SignInComponent implements OnInit {
   // inject dependencies
   private router = inject(Router);
   private signinService = inject(SignInService);
+  private estudianteService = inject(EstudianteService);
   // variables
   hide = signal(true);
   loginForm!: FormGroup;
@@ -144,7 +146,8 @@ export class SignInComponent implements OnInit {
       next: (response) => {
         if (response.resp.password == this.loginForm.value.contrasena) {
           this.navigateTo('dashboard');
-          delete response.resp.password; // Eliminar la contraseña del objeto de respuesta
+          delete response.resp.password;
+          this.obtenerInformacionEstudiantePorIdUsuario(response.resp.id);
           sessionStorage.setItem('usuario', JSON.stringify(response.resp));
         } else {
           Swal.fire({
@@ -163,6 +166,19 @@ export class SignInComponent implements OnInit {
           icon: 'error',
           confirmButtonText: 'OK',
         });
+      },
+    });
+  }
+
+  obtenerInformacionEstudiantePorIdUsuario(idUsuario: number) {
+    this.estudianteService.obtenerEstudiantePorUsuario(idUsuario).subscribe({
+      next: (response) => {
+        console.log('Información del estudiante:', response);
+        this.signinService.captureInformacionEstudiante(response);
+        sessionStorage.setItem('estudiante', JSON.stringify(response));
+      },
+      error: (error) => {
+        console.error('Error al obtener información del estudiante:', error);
       },
     });
   }

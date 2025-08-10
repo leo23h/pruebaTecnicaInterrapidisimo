@@ -13,7 +13,7 @@
             </div>
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <strong>Docente:</strong> {{ getProfesorById( materia.profesorId!) }}
+                    <strong>Docente:</strong> {{ materia.profesor?.nombre + ' ' + materia.profesor?.apellido}}
                 </div>
             </div>
             <div class="row mb-3">

@@ -36,7 +36,7 @@ export class MateriaService {
 
   obtenerTodasMaterias() {
     const url = `${this.baseUrl}${environment.prefijos.materia}/GetAllMaterias`;
-    return this.http.get<Materia>(url)
+    return this.http.get<Materia[]>(url)
   }
 
   matricularMateriasPorEstudiante(data: MateriaRequest) {
@@ -50,7 +50,7 @@ export class MateriaService {
   }
 
   obtenerMateriasPorEstudiante(idEstudiante: number) {
-    const url = `${this.baseUrl}${environment.prefijos.materia}/GetMateriasPorIdEstudiante`;
+    const url = `${this.baseUrl}${environment.prefijos.materia}/GetMateriaPorIdEstudiante`;
     return this.http.get<any>(`${url}/${idEstudiante}` );
   }
 

@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { MenuComponent } from '../../shared/components/menu/menu.component';
 import { Estudiante } from '../../shared/models/estudiante.interface';
-import { Materia } from '../../shared/models/materia.interface';
+import { Materia, MateriaAsignada, MateriaRequest } from '../../shared/models/materia.interface';
 import { Profesor } from '../../shared/models/profesor.interface';
 import Swal from 'sweetalert2';
 import {
@@ -14,6 +14,10 @@ import {
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MateriaDetalleComponent } from '../materia-detalle/materia-detalle.component';
+import { EstudianteService } from '../../core/services/estudiante.service';
+import { MateriaService } from '../../core/services/materia.service';
+import { profesorService } from '../../core/services/profesor.service';
+import { SignInService } from '../../core/services/signin.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,6 +28,9 @@ import { MateriaDetalleComponent } from '../materia-detalle/materia-detalle.comp
 export class DashboardComponent implements OnInit {
   private router = inject(Router);
   readonly dialog = inject(MatDialog);
+  private materiaService = inject(MateriaService);
+  private profesorService = inject(profesorService);
+  private signedInService = inject(SignInService);
 
   pageSize = 10;
   currentPage = 1;
@@ -31,8 +38,8 @@ export class DashboardComponent implements OnInit {
   pages: number[] = [];
   estudianteList: Estudiante[] = [];
   materias: Materia[] = [];
-  materiasMatriculadasList: Materia[] = [];
-  paginatedData: Materia[] = this.materiasMatriculadasList;
+  materiasMatriculadasList: MateriaAsignada[] = [];
+  paginatedData: MateriaAsignada[] = this.materiasMatriculadasList;
   profesoresList: Profesor[] = [];
   matriculoMaterias: boolean = false;
   profesorSeleccionado: string = '';
@@ -40,6 +47,7 @@ export class DashboardComponent implements OnInit {
   materiaForm!: FormGroup;
   creditosMatriculados: number = 0;
   mostrarAgregarMateria: boolean = false;
+  estudianteInfo: Estudiante = {} as Estudiante;
   displayedColumns: string[] = [
     'Código',
     'Nombre Materia',
@@ -49,11 +57,24 @@ export class DashboardComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+ 
+    this.estudianteInfo = JSON.parse(sessionStorage.getItem('estudiante') || '{}');
+    console.log("estudianteInfo", this.estudianteInfo)
     this.crearFormulario();
-    this.getEstudiante();
-    this.getMaterias();
     this.getProfesores();
+    this.getMaterias();
+    // this.obtenerInformacionEstudiante();
+    this.obtenerMateriasRegistradas(this.estudianteInfo.id!);
   }
+
+  // obtenerInformacionEstudiante() {
+  //  this.signedInService.getInformacionEstudiante().subscribe((response)=> {
+  //     this.estudianteInfo = response;
+  //     console.log("informacion estudiante en dashboard", this.estudianteInfo);
+  //     this.obtenerMateriasRegistradas(this.estudianteInfo.id!);
+  //   })
+  // }
+
 
   crearFormulario() {
     this.materiaForm = new FormGroup({
@@ -61,21 +82,16 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  getEstudiante() {
-    this.estudianteList = [
-      {
-        id: 1,
-        nombre: 'Leonardo',
-        apellido: 'Herrera',
-        email: 'leonardo@univerdidad.com',
-        telefono: '1234567890',
-        materias: [
-          // { id: 9, nombre: 'Ingenieria de software I', codigo: 'ING101', creditos: 3 },
-          // { id: 6, nombre: 'Estructura de Datos', codigo: 'EST001', creditos: 3 },
-          // { id: 3, nombre: 'Algoritmos I', codigo: 'QUI101', creditos: 3 }
-        ],
+
+  getProfesores() {
+    this.profesorService.obtenerProfesores().subscribe({
+      next: (response) => {
+        this.profesoresList = response;
       },
-    ];
+      error: (error) => {
+        console.error('Error al iniciar sesión:', error);
+      },
+    });
   }
 
   navigateTo(urlToNavigate: string, id?: number) {
@@ -116,174 +132,35 @@ export class DashboardComponent implements OnInit {
   }
 
   getMaterias() {
-    this.materias = [
-      {
-        id: 1,
-        nombre: 'Matemáticas Discretas',
-        codigo: 'MAT101',
-        creditos: 3,
-        profesorId: 5,
-        estudianteId: null,
+    this.materiaService.obtenerTodasMaterias().subscribe({
+      next: (response) => {
+        this.materias = response;
       },
-      {
-        id: 2,
-        nombre: 'Física Mecánica',
-        codigo: 'FIS101',
-        creditos: 3,
-        profesorId: 5,
-        estudianteId: null,
+      error: (error) => {
+        console.error('Error al iniciar sesión:', error);
       },
-      {
-        id: 3,
-        nombre: 'Ingenieria de software II',
-        codigo: 'ING102',
-        creditos: 3,
-        profesorId: 4,
-        estudianteId: null,
-      },
-      {
-        id: 4,
-        nombre: 'Programación I',
-        codigo: 'PROG01',
-        creditos: 3,
-        profesorId: 3,
-        estudianteId: null,
-      },
-      {
-        id: 5,
-        nombre: 'Algoritmos I',
-        codigo: 'ALG001',
-        creditos: 3,
-        profesorId: 3,
-        estudianteId: null,
-      },
-      {
-        id: 6,
-        nombre: 'Estructura de Datos',
-        codigo: 'EST001',
-        creditos: 3,
-        profesorId: 2,
-        estudianteId: null,
-      },
-      {
-        id: 7,
-        nombre: 'Base de Datos',
-        codigo: 'BASED001',
-        creditos: 3,
-        profesorId: 2,
-        estudianteId: null,
-      },
-      {
-        id: 8,
-        nombre: 'Teoria de Automatas',
-        codigo: 'TEA001',
-        creditos: 3,
-        profesorId: 1,
-        estudianteId: null,
-      },
-      {
-        id: 9,
-        nombre: 'Ingenieria de software I',
-        codigo: 'ING101',
-        creditos: 3,
-        profesorId: 4,
-        estudianteId: null,
-      },
-      {
-        id: 10,
-        nombre: 'Automatización',
-        codigo: 'AUT101',
-        creditos: 3,
-        profesorId: 1,
-        estudianteId: null,
-      },
-    ];
+    });
+
   }
 
-  getProfesores() {
-    this.profesoresList = [
-      {
-        id: 1,
-        nombre: 'Darwin',
-        apellido: 'Mercado',
-        email: 'profesor1@univerdidad.com',
-        telefono: '1234567890',
-        materias: [
-          {
-            id: 8,
-            nombre: 'Teoria de Automatas',
-            codigo: 'TEA001',
-            creditos: 3,
-            profesorId: 1,
-          },
-          { id: 10, nombre: 'Automatización', codigo: 'AUT101', creditos: 3 },
-        ],
+
+  obtenerMateriasRegistradas(usuarioId: number) {
+    this.materiaService.obtenerMateriasPorEstudiante(usuarioId).subscribe({
+      next: (response) => {
+        this.materiasMatriculadasList = response;
+        this.totalPages = Math.ceil(
+          this.materiasMatriculadasList.length / this.pageSize
+        );
+        this.currentPage = 1;
+        this.updatePaginatedData();
+        this.generatePages();
+        // sumar creditos
+        this.creditosMatriculados = this.sumarCreditosMateria();
       },
-      {
-        id: 2,
-        nombre: 'Paola',
-        apellido: 'Ariza',
-        email: 'profesor2@univerdidad.com',
-        telefono: '987456321',
-        materias: [
-          {
-            id: 6,
-            nombre: 'Estructura de Datos',
-            codigo: 'EST001',
-            creditos: 3,
-          },
-          { id: 7, nombre: 'Base de Datos', codigo: 'BASED001', creditos: 3 },
-        ],
+      error: (error) => {
+        console.error('Error al iniciar sesión:', error);
       },
-      {
-        id: 3,
-        nombre: 'Alexis',
-        apellido: 'De la Hoz',
-        email: 'profesor3@univerdidad.com',
-        telefono: '9632587441',
-        materias: [
-          { id: 3, nombre: 'Algoritmos I', codigo: 'ALG001', creditos: 3 },
-          { id: 4, nombre: 'Programación I', codigo: 'PROG01', creditos: 3 },
-        ],
-      },
-      {
-        id: 4,
-        nombre: 'Jorge',
-        apellido: 'Piñeres',
-        email: 'profesor4@univerdidad.com',
-        telefono: '456789123',
-        materias: [
-          {
-            id: 9,
-            nombre: 'Ingenieria de software I',
-            codigo: 'ING101',
-            creditos: 3,
-          },
-          {
-            id: 10,
-            nombre: 'Ingenieria de software II',
-            codigo: 'ING102',
-            creditos: 3,
-          },
-        ],
-      },
-      {
-        id: 5,
-        nombre: 'Roberto',
-        apellido: 'Morales',
-        email: 'profesor5@univerdidad.com',
-        telefono: '123789456',
-        materias: [
-          {
-            id: 1,
-            nombre: 'Matemáticas Discretas',
-            codigo: 'MAT101',
-            creditos: 3,
-          },
-          { id: 2, nombre: 'Física Mecánica', codigo: 'FIS101', creditos: 3 },
-        ],
-      },
-    ];
+    });
   }
 
   matricularMaterias(materiaId: number) {
@@ -298,7 +175,7 @@ export class DashboardComponent implements OnInit {
         });
       } else {
         const isAlreadyEnrolled = this.materiasMatriculadasList.some(
-          (item) => item.profesorId === materia.profesorId
+          (item) => item.profesor?.id === materia.profesorId
         );
         if (isAlreadyEnrolled) {
           // Verificar si la materia ya está matriculada
@@ -310,16 +187,8 @@ export class DashboardComponent implements OnInit {
           });
           return;
         } else {
-          // Matricular la materia
-          materia.estudianteId = this.estudianteList[0].id;
-          this.materiasMatriculadasList.push(materia);
-          this.estudianteList[0].materias?.push(materia);
-          Swal.fire({
-            title: 'Success!',
-            text: 'Se ha agregardo la materia exitosamente',
-            icon: 'success',
-            confirmButtonText: 'OK',
-          });
+          this.registrarMateria(materiaId);
+          
         }
       }
     }
@@ -336,6 +205,31 @@ export class DashboardComponent implements OnInit {
     this.creditosMatriculados = this.sumarCreditosMateria();
   }
 
+  registrarMateria(materiaId: number) {
+    let data: MateriaRequest = {
+      idEstudiante: this.estudianteInfo.id!,
+      idMateria: materiaId,
+    }
+    this.materiaService.matricularMateriasPorEstudiante(data).subscribe({
+      next: (response) => {
+        if(response){
+          this.obtenerMateriasRegistradas(this.estudianteInfo.id!);
+          Swal.fire({
+            title: 'Success!',
+            text: 'Se ha agregardo la materia exitosamente',
+            icon: 'success',
+            confirmButtonText: 'OK',
+          });
+          // sumar creditos
+          this.creditosMatriculados = this.sumarCreditosMateria();
+        }
+      },
+      error: (error) => {
+        console.error('Error al iniciar sesión:', error);
+      },
+    });
+  }
+
   eliminarMaterias(materiaId: number) {
     Swal.fire({
       title: '¿Estas seguro de eliminar la materia?',
@@ -346,22 +240,30 @@ export class DashboardComponent implements OnInit {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         // remover la materia de la lista principal
-        let indexMateriaMatriculada = this.materiasMatriculadasList.findIndex(
-          (item) => item.id === Number(materiaId)
-        );
-         this.materiasMatriculadasList.splice(indexMateriaMatriculada, 1 );
-        this.paginatedData = this.materiasMatriculadasList;
-        this.estudianteList[0].materias?.splice(indexMateriaMatriculada, 1);
-        // paginador
-        this.totalPages = Math.ceil(
-          this.materiasMatriculadasList.length / this.pageSize
-        );
-        this.currentPage = 1;
-        this.updatePaginatedData();
-        this.generatePages();
+        this.eliminarMateriaPorEstudiante(materiaId);
+        
       } else if (result.isDenied) {
         Swal.fire('La materia no se eliminó', '', 'info');
       }
+    });
+  }
+
+  eliminarMateriaPorEstudiante(materiaId: number) {
+    let data: MateriaRequest = {
+      idEstudiante: this.estudianteInfo.id!,
+      idMateria: materiaId,
+    }
+    this.materiaService.eliminarMateriasPorEstudiante(data).subscribe({
+      next: (response) => {
+        if(response){
+          this.obtenerMateriasRegistradas(this.estudianteInfo.id!);
+          // sumar creditos
+          this.creditosMatriculados = this.sumarCreditosMateria();
+        }
+      },
+      error: (error) => {
+        console.error('Error al iniciar sesión:', error);
+      },
     });
   }
 

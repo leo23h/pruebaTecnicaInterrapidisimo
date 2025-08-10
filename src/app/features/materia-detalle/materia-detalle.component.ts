@@ -1,8 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Materia } from '../../shared/models/materia.interface';
+import { Materia, MateriaAsignada } from '../../shared/models/materia.interface';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Estudiante } from '../../shared/models/estudiante.interface';
 import { Profesor } from '../../shared/models/profesor.interface';
+import { profesorService } from '../../core/services/profesor.service';
+import { EstudianteService } from '../../core/services/estudiante.service';
 
 @Component({
   selector: 'app-materia-detalle',
@@ -14,14 +16,18 @@ export class MateriaDetalleComponent implements OnInit {
   
   private dialogRef = inject(MatDialogRef<MateriaDetalleComponent>);
   public data = inject<Materia>(MAT_DIALOG_DATA);
-  public materia: Materia = this.data;
+  private profesorService = inject(profesorService);
+  private estudianteService = inject(EstudianteService);
+  public materia: MateriaAsignada = this.data;
   EstudianteList: Estudiante[] = [];
   profesoresList: Profesor[] = [];
+  estudianteInfo: Estudiante = {} as Estudiante;
 
   ngOnInit(): void {
+    this.estudianteInfo = JSON.parse(sessionStorage.getItem('estudiante') || '{}');
     this.getEstudiantes();
     this.getProfesores();
-    this.EstudianteList = this.listarEstudiantesPorMateria(this.materia.id!);
+    
   }
 
   cerrarModal() {
@@ -29,112 +35,34 @@ export class MateriaDetalleComponent implements OnInit {
   }
 
   getEstudiantes() {
-    this.EstudianteList = [
-      { id: 2, nombre: 'Joseph', apellido: 'Ariza', email: 'Joseph@univerdidad.com', telefono: '987456321', materias: [
-        { id: 9, nombre: 'Ingenieria de software I', codigo: 'ING101', creditos: 3 },
-        { id: 7, nombre: 'Base de Datos', codigo: 'BASED001', creditos: 3 },
-        { id: 3, nombre: 'Algoritmos I', codigo: 'ALG101', creditos: 3 }]
-      }
-    ];
+    this.estudianteService.obtenerEstudiantes().subscribe({
+      next: (response) => {
+        this.EstudianteList = response;
+        this.EstudianteList = this.listarEstudiantesPorMateria(this.materia.id!);
+      },
+      error: (error) => {
+        console.error('Error al iniciar sesión:', error);
+      },
+    });
   }
 
   getProfesores() {
-    this.profesoresList = [
-      {
-        id: 1,
-        nombre: 'Darwin',
-        apellido: 'Mercado',
-        email: 'profesor1@univerdidad.com',
-        telefono: '1234567890',
-        materias: [
-          {
-            id: 8,
-            nombre: 'Teoria de Automatas',
-            codigo: 'TEA001',
-            creditos: 3,
-            profesorId: 1,
-          },
-          { id: 10, nombre: 'Automatización', codigo: 'AUT101', creditos: 3 },
-        ],
+    this.profesorService.obtenerProfesores().subscribe({
+      next: (response) => {
+        this.profesoresList = response;
       },
-      {
-        id: 2,
-        nombre: 'Paola',
-        apellido: 'Ariza',
-        email: 'profesor2@univerdidad.com',
-        telefono: '987456321',
-        materias: [
-          {
-            id: 6,
-            nombre: 'Estructura de Datos',
-            codigo: 'EST001',
-            creditos: 3,
-          },
-          { id: 7, nombre: 'Base de Datos', codigo: 'BASED001', creditos: 3 },
-        ],
+      error: (error) => {
+        console.error('Error al iniciar sesión:', error);
       },
-      {
-        id: 3,
-        nombre: 'Alexis',
-        apellido: 'De la Hoz',
-        email: 'profesor3@univerdidad.com',
-        telefono: '9632587441',
-        materias: [
-          { id: 3, nombre: 'Algoritmos I', codigo: 'QUI101', creditos: 3 },
-          { id: 4, nombre: 'Programación I', codigo: 'PROG01', creditos: 3 },
-        ],
-      },
-      {
-        id: 4,
-        nombre: 'Jorge',
-        apellido: 'Piñeres',
-        email: 'profesor4@univerdidad.com',
-        telefono: '456789123',
-        materias: [
-          {
-            id: 9,
-            nombre: 'Ingenieria de software I',
-            codigo: 'ING101',
-            creditos: 3,
-          },
-          {
-            id: 10,
-            nombre: 'Ingenieria de software II',
-            codigo: 'ING102',
-            creditos: 3,
-          },
-        ],
-      },
-      {
-        id: 5,
-        nombre: 'Roberto',
-        apellido: 'Morales',
-        email: 'profesor5@univerdidad.com',
-        telefono: '123789456',
-        materias: [
-          {
-            id: 1,
-            nombre: 'Matemáticas Discretas',
-            codigo: 'MAT101',
-            creditos: 3,
-          },
-          { id: 2, nombre: 'Física Mecánica', codigo: 'FIS101', creditos: 3 },
-        ],
-      },
-    ];
+    });
   }
 
   listarEstudiantesPorMateria(materiaId: number): Estudiante[] {
     return this.EstudianteList.filter(estudiante =>
-      estudiante.materias!.some(materia => materia.id === materiaId)
+      estudiante.materiaMatriculadas!.some(materia => materia.id === materiaId) && estudiante.id !== this.estudianteInfo.id
     );
   }
 
-  getProfesorById(id: number): string {
-    let profesor = this.profesoresList.find(
-      (profesor) => profesor.id === Number(id)
-    );
-    return profesor?.nombre + ' ' + profesor?.apellido;
-  }
+
   
 }
