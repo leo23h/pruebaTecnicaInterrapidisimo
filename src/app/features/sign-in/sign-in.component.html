@@ -72,15 +72,6 @@
                             <div class="pt-5">
                                 <form [formGroup]="registroForm" class="row">
                                     <div class="mb-3">
-                                        <label for="identificacion" class="form-label">Identificación</label>
-                                        <input type="text" formControlName="identificacion" class="form-control i-cust" id="identificacion" placeholder="Identificación"
-                                        [class]="{'border-danger': registroForm.get('identificacion')?.touched && registroForm.get('identificacion')?.invalid }">
-                                        <div *ngIf="registroForm.get('identificacion')?.touched && registroForm.get('identificacion')?.invalid">
-                                            <small *ngIf="registroForm.get('identificacion')?.errors?.['required']"
-                                                class="text-danger mt-1">identificación es obligatorio.</small>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
                                         <label for="nombre" class="form-label">Nombre</label>
                                         <input type="text" formControlName="nombre" class="form-control i-cust" id="nombre" placeholder="Nombre" aria-describedby="nombre"
                                         [class]="{'border-danger': registroForm.get('nombre')?.touched && registroForm.get('nombre')?.invalid }">
@@ -96,6 +87,26 @@
                                         <div *ngIf="registroForm.get('apellido')?.touched && registroForm.get('nombre')?.invalid">
                                             <small *ngIf="registroForm.get('apellido')?.errors?.['required']"
                                                 class="text-danger mt-1">Apellido es obligatorio.</small>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="telefono" class="form-label">Teléfono</label>
+                                        <input type="text" formControlName="telefono" class="form-control i-cust" id="telefono" placeholder="Teléfono"
+                                        [class]="{'border-danger': registroForm.get('telefono')?.touched && registroForm.get('identificacion')?.invalid }">
+                                        <div *ngIf="registroForm.get('telefono')?.touched && registroForm.get('telefono')?.invalid">
+                                            <small *ngIf="registroForm.get('telefono')?.errors?.['required']"
+                                                class="text-danger mt-1">Teléfono es obligatorio.</small>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="telefono" class="form-label">Email</label>
+                                        <input type="text" formControlName="email" class="form-control i-cust" id="email" placeholder="email"
+                                        [class]="{'border-danger': registroForm.get('email')?.touched && registroForm.get('email')?.invalid }">
+                                        <div *ngIf="registroForm.get('email')?.touched && registroForm.get('email')?.invalid">
+                                            <small *ngIf="registroForm.get('email')?.errors?.['required']"
+                                                class="text-danger mt-1">email es obligatorio.</small>
+                                             <small *ngIf="loginForm.get('usuario')?.errors?.['email']"
+                                                class="text-danger mt-1">Email incorrecto.</small>
                                         </div>
                                     </div>
                                     <div class="mb-3">

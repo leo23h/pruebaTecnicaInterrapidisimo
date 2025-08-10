@@ -13,6 +13,7 @@ export class MenuComponent {
   cerrarSesion() {
     // Aquí puedes agregar la lógica para cerrar sesión
     console.log('Sesión cerrada');
+    sessionStorage.clear();
     this.navigateTo('auth');
   }
 

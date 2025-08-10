@@ -242,7 +242,7 @@ export class DashboardComponent implements OnInit {
         email: 'profesor3@univerdidad.com',
         telefono: '9632587441',
         materias: [
-          { id: 3, nombre: 'Algoritmos I', codigo: 'QUI101', creditos: 3 },
+          { id: 3, nombre: 'Algoritmos I', codigo: 'ALG001', creditos: 3 },
           { id: 4, nombre: 'Programación I', codigo: 'PROG01', creditos: 3 },
         ],
       },
